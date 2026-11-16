@@ -7,4 +7,4 @@ export function asset(path: string): string {
 
 export const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ||
-  "https://yvybitec-bigbot.github.io/pagos-labs-site";
+  "https://pagos.yvyresearch.link";

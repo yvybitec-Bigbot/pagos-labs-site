@@ -1,4 +1,4 @@
 User-Agent: *
 Allow: /
 
-Sitemap: https://yvybitec-bigbot.github.io/pagos-labs-site/sitemap.xml
+Sitemap: https://pagos.yvyresearch.link/sitemap.xml

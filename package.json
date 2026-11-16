@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "build:pages": "GITHUB_PAGES=true NEXT_PUBLIC_BASE_PATH=/pagos-labs-site next build && rm -rf docs && cp -a out docs && touch docs/.nojekyll",
+    "build:pages": "NEXT_PUBLIC_SITE_URL=https://pagos.yvyresearch.link next build && rm -rf docs && cp -a out docs && touch docs/.nojekyll && printf 'pagos.yvyresearch.link\\n' > docs/CNAME",
     "start": "next start"
   },
   "dependencies": {
