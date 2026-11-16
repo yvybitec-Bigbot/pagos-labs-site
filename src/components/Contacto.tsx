@@ -2,6 +2,9 @@
 
 import { FormEvent, useState } from "react";
 
+const FORMSUBMIT_ENDPOINT =
+  "https://formsubmit.co/ajax/xtccarlos9995@gmail.com";
+
 const ORGANIZACIONES = [
   "Banco",
   "Fintech",
@@ -43,6 +46,7 @@ const EMPTY: Fields = {
 };
 
 type Errors = Partial<Record<keyof Fields, string>>;
+type Status = "idle" | "sending" | "success" | "error" | "copied";
 
 function validate(f: Fields): Errors {
   const e: Errors = {};
@@ -77,14 +81,14 @@ function buildConsulta(f: Fields): string {
 export function Contacto() {
   const [fields, setFields] = useState<Fields>(EMPTY);
   const [errors, setErrors] = useState<Errors>({});
-  const [status, setStatus] = useState<"idle" | "ready" | "copied">("idle");
+  const [status, setStatus] = useState<Status>("idle");
   const [consulta, setConsulta] = useState("");
 
   function set<K extends keyof Fields>(key: K, value: Fields[K]) {
     setFields((prev) => ({ ...prev, [key]: value }));
   }
 
-  function onSubmit(ev: FormEvent) {
+  async function onSubmit(ev: FormEvent) {
     ev.preventDefault();
     if (fields.website) {
       // Honeypot: silenciar bots sin simular un envío real.
@@ -93,8 +97,46 @@ export function Contacto() {
     const e = validate(fields);
     setErrors(e);
     if (Object.keys(e).length) return;
-    setConsulta(buildConsulta(fields));
-    setStatus("ready");
+    const texto = buildConsulta(fields);
+    setConsulta(texto);
+    setStatus("sending");
+    try {
+      const res = await fetch(FORMSUBMIT_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          nombre: fields.nombre.trim(),
+          empresa: fields.empresa.trim(),
+          correo: fields.correo.trim(),
+          pais: fields.pais.trim(),
+          organizacion: fields.organizacion,
+          servicio: fields.servicio,
+          descripcion: fields.descripcion.trim(),
+          _subject: "Nueva consulta – Pagos Labs web",
+          _template: "table",
+          _honey: "",
+          _cc: "bigbot.vaultarmor@gmail.com",
+          _replyto: fields.correo.trim(),
+        }),
+      });
+      const data = await res.json().catch(() => null);
+      const ok =
+        res.ok &&
+        data &&
+        data.success !== false &&
+        data.success !== "false";
+      if (!ok) {
+        setStatus("error");
+        return;
+      }
+      setStatus("success");
+      setFields(EMPTY);
+    } catch {
+      setStatus("error");
+    }
   }
 
   async function copiar() {
@@ -104,6 +146,11 @@ export function Contacto() {
     } catch {
       // El usuario puede seleccionar el texto a mano.
     }
+  }
+
+  function volverAlFormulario() {
+    setStatus("idle");
+    setConsulta("");
   }
 
   return (
@@ -118,28 +165,20 @@ export function Contacto() {
           </h2>
           <p className="mt-6 text-lg leading-relaxed text-navy/75">
             Cuéntanos quién eres y qué tienes en mente. El formulario valida
-            los datos en tu navegador. El envío automático al correo de Pagos
-            Labs aún no está conectado: si tu consulta está lista, podrás
-            copiarla y conservarla hasta que habilitemos ese canal.
+            los datos en tu navegador y nos envía tu consulta para que podamos
+            responderte.
           </p>
         </div>
 
-        {status === "idle" ? (
-          <form
-            onSubmit={onSubmit}
-            noValidate
-            className="grid gap-5"
-            aria-describedby="aviso-envio"
-          >
-            <p id="aviso-envio" className="sr-only">
-              El envío por correo aún no está conectado.
-            </p>
+        {status === "idle" || status === "sending" ? (
+          <form onSubmit={onSubmit} noValidate className="grid gap-5">
             <div className="honeypot" aria-hidden="true">
               <label>
                 Sitio web
                 <input
                   tabIndex={-1}
                   autoComplete="off"
+                  name="_honey"
                   value={fields.website}
                   onChange={(e) => set("website", e.target.value)}
                 />
@@ -204,7 +243,9 @@ export function Contacto() {
                 value={fields.descripcion}
                 onChange={(e) => set("descripcion", e.target.value)}
                 aria-invalid={!!errors.descripcion}
-                aria-describedby={errors.descripcion ? "err-descripcion" : undefined}
+                aria-describedby={
+                  errors.descripcion ? "err-descripcion" : undefined
+                }
               />
               {errors.descripcion && (
                 <span id="err-descripcion" className="error">
@@ -215,20 +256,34 @@ export function Contacto() {
 
             <button
               type="submit"
-              className="mt-2 inline-flex items-center justify-center rounded-full bg-navy px-6 py-3 text-sm font-semibold text-white transition hover:bg-navy-2"
+              disabled={status === "sending"}
+              className="mt-2 inline-flex items-center justify-center rounded-full bg-navy px-6 py-3 text-sm font-semibold text-white transition hover:bg-navy-2 disabled:opacity-60"
             >
-              Enviar consulta
+              {status === "sending" ? "Enviando…" : "Enviar consulta"}
             </button>
           </form>
+        ) : status === "success" ? (
+          <div className="rounded-2xl border border-slate/50 bg-mist p-6">
+            <h3 className="text-lg font-semibold text-navy">Consulta enviada</h3>
+            <p className="mt-2 text-sm leading-relaxed text-navy/75">
+              Gracias, hemos recibido tu consulta. Te responderemos pronto.
+            </p>
+            <button
+              type="button"
+              onClick={volverAlFormulario}
+              className="mt-4 rounded-full border border-slate px-5 py-2.5 text-sm font-semibold text-navy hover:border-cyan"
+            >
+              Enviar otra consulta
+            </button>
+          </div>
         ) : (
           <div className="rounded-2xl border border-slate/50 bg-mist p-6">
             <h3 className="text-lg font-semibold text-navy">
-              Tu consulta está lista
+              No hemos podido enviar tu consulta
             </h3>
             <p className="mt-2 text-sm leading-relaxed text-navy/75">
-              Los datos son válidos. Todavía no hay un buzón conectado a este
-              formulario, así que no se ha enviado nada. Puedes copiar el texto
-              y guardarlo.
+              Ha ocurrido un problema al enviarla. Puedes copiar el texto y
+              conservarlo, o intentarlo de nuevo.
             </p>
             <pre className="mt-4 max-h-64 overflow-auto rounded-xl bg-white p-4 text-xs leading-relaxed text-navy whitespace-pre-wrap">
               {consulta}
@@ -243,13 +298,10 @@ export function Contacto() {
               </button>
               <button
                 type="button"
-                onClick={() => {
-                  setStatus("idle");
-                  setConsulta("");
-                }}
+                onClick={volverAlFormulario}
                 className="rounded-full border border-slate px-5 py-2.5 text-sm font-semibold text-navy hover:border-cyan"
               >
-                Editar de nuevo
+                Intentarlo de nuevo
               </button>
             </div>
           </div>

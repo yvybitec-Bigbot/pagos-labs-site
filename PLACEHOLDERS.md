@@ -9,7 +9,7 @@
 
 ## Correo y redes
 
-- No se publica ningún correo ni red social (el prompt maestro pide no inventarlos). El formulario no envía todavía: queda preparado para conectar un buzón o un CRM.
+- No se publica ningún correo ni red social (el prompt maestro pide no inventarlos). El formulario envía la consulta por correo, sin mostrar la dirección en la página.
 - `santi@pagachain.com` existe, pero no se ha usado aquí porque el correo público de Pagos Labs no está decidido.
 
 ## Dominio

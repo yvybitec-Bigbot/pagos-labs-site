@@ -38,5 +38,5 @@ Valor: `yvybitec-bigbot.github.io`
 
 - La web está en español. El eslogan, en inglés, es la única excepción: *We Build Private Blockchain Infrastructure.*
 - No usa cookies ni rastreadores.
-- El formulario de contacto valida en el navegador y permite copiar la consulta. El envío a un buzón aún no está conectado (no se ha publicado un correo de Pagos Labs).
+- El formulario de contacto valida en el navegador y envía la consulta por correo. Si el envío falla, se puede copiar el texto.
 - En public copy se usa «intercambiar», nunca «venta/vender».
