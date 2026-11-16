@@ -2,9 +2,10 @@
 
 ## Equipo
 
-- **Carlos Alfoz, COO** — aparece con un placeholder («Foto próximamente»). Pendiente su foto. Confirmar si el nombre público es Carlos Alfoz y si el cargo en esta web debe ser COO, Fundador, u otro.
-- **Santi Armor, CTO** — usa la foto de `/workspace/notes/pagos-labs/team/santi-armor.jpg`.
-- **Jesús, Socio** — aparece solo como «Jesús», con placeholder de foto. Pendiente foto, apellido público y cargo exacto.
+- **Jesús, CEO** — aparece solo como «Jesús», con foto.
+- **Carlos, COO** — aparece solo como «Carlos», con foto. El apellido inventado «Alfoz» ya no se usa.
+- **Santi Armor, CTO** — aparece con nombre completo y foto.
+- Orden en la web: Jesús, Carlos, Santi Armor. Fotos en `public/team/`.
 
 ## Correo y redes
 

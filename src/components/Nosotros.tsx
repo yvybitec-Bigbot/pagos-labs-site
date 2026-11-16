@@ -22,22 +22,19 @@ const VALORES = [
 
 const EQUIPO = [
   {
-    name: "Carlos Alfoz",
+    name: "Jesús",
+    role: "CEO",
+    photo: "/team/jesus.jpg",
+  },
+  {
+    name: "Carlos",
     role: "COO",
-    photo: null as string | null,
-    initials: "CA",
+    photo: "/team/carlos.jpg",
   },
   {
     name: "Santi Armor",
     role: "CTO",
     photo: "/team/santi-armor.jpg",
-    initials: "SA",
-  },
-  {
-    name: "Jesús",
-    role: "Socio",
-    photo: null as string | null,
-    initials: "J",
   },
 ];
 
@@ -115,22 +112,11 @@ export function Nosotros() {
             {EQUIPO.map((m) => (
               <li key={m.name} className="group">
                 <div className="aspect-[4/5] overflow-hidden rounded-2xl bg-navy-2">
-                  {m.photo ? (
-                    <img
-                      src={asset(m.photo)}
-                      alt={m.name}
-                      className="h-full w-full object-cover object-top"
-                    />
-                  ) : (
-                    <div className="flex h-full flex-col items-center justify-center bg-[radial-gradient(circle_at_30%_20%,rgba(67,201,217,0.25),transparent_55%),linear-gradient(180deg,#17263C,#101D35)] text-center">
-                      <span className="text-4xl font-extrabold tracking-tight text-cyan">
-                        {m.initials}
-                      </span>
-                      <span className="mt-3 text-xs font-medium tracking-wide text-slate">
-                        Foto próximamente
-                      </span>
-                    </div>
-                  )}
+                  <img
+                    src={asset(m.photo)}
+                    alt={m.name}
+                    className="h-full w-full object-cover object-top"
+                  />
                 </div>
                 <p className="mt-4 text-lg font-semibold text-navy">{m.name}</p>
                 <p className="text-sm text-navy/60">{m.role}</p>
