@@ -32,7 +32,7 @@ const EQUIPO = [
     photo: "/team/carlos.jpg",
   },
   {
-    name: "Santi Armor",
+    name: "Santi",
     role: "CTO",
     photo: "/team/santi-armor.jpg",
   },
