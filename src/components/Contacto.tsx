@@ -118,7 +118,6 @@ export function Contacto() {
           _subject: "Nueva consulta – Pagos Labs web",
           _template: "table",
           _honey: "",
-          _cc: "bigbot.vaultarmor@gmail.com",
           _replyto: fields.correo.trim(),
         }),
       });
