@@ -12,26 +12,29 @@ export function Footer() {
             </p>
           </div>
           <nav aria-label="Pie de página" className="grid grid-cols-2 gap-x-10 gap-y-2 text-sm">
-            <a href="#inicio" className="hover:text-white">
+            <a href="/#inicio" className="hover:text-white">
               Inicio
             </a>
-            <a href="#nosotros" className="hover:text-white">
+            <a href="/#nosotros" className="hover:text-white">
               Nosotros
             </a>
-            <a href="#tecnologia" className="hover:text-white">
+            <a href="/#tecnologia" className="hover:text-white">
               Tecnología
             </a>
-            <a href="#soluciones" className="hover:text-white">
+            <a href="/#soluciones" className="hover:text-white">
               Soluciones
             </a>
-            <a href="#empresas" className="hover:text-white">
+            <a href="/#empresas" className="hover:text-white">
               Empresas
             </a>
-            <a href="#contacto" className="hover:text-white">
+            <a href="/#contacto" className="hover:text-white">
               Contacto
             </a>
-            <a href="#billetera" className="hover:text-white">
+            <a href="/#billetera" className="hover:text-white">
               Billetera
+            </a>
+            <a href="/privacidad-paga-wallet.html" className="hover:text-white col-span-2">
+              Política de privacidad de nuestras apps
             </a>
           </nav>
         </div>
